@@ -4,8 +4,6 @@
   import ApolloClient from 'apollo-boost';
   import { setClient } from 'svelte-apollo';
 
-  console.log(WEB.API_URL)
-
   const client = new ApolloClient({ uri: `${WEB.API_URL}/graphql`,  credentials: 'include' });
   setClient(client);
 
@@ -13,39 +11,40 @@
   import Brand from "./components/layout/nav/Brand.svelte";
   import NavItem from "./components/layout/nav/NavItem.svelte";
 
-  import EnsureLogin from "./components/EnsureLogin.svelte";
-
   import Server from "./pages/server/Server.svelte";
+  import User from "./pages/user/User.svelte";
   import Select from "./pages/Select.svelte";
-  import ColoredText from "./components/ColoredText.svelte";
+  import NotFound from "./pages/404.svelte";
 
-  export let url = "";
-  import { userStore } from "./state/store"
-
-  const discord = user
+  export let user;
 </script>
 
-
 <template>
-  <EnsureLogin />
-  {#if $userStore.loggedIn}
-	<Router url="{url}">
+	<Router>
     <Navbar>
       <div slot="left">
         <Brand />
-        <NavItem to="select">Select</NavItem>
       </div>
       <div slot="right">
-        <NavItem to="select">{$userStore.discord.username}</NavItem>
+        <NavItem to="profile">{user.Discord.username}</NavItem>
       </div>
     </Navbar>
-		<div>
-			<Route path="server/:id/*" component="{Server}" />
-			<Route path="select" component="{Select}" />
-			<Route path="/">
-        <ColoredText>I am (g)root</ColoredText>
-      </Route>
+		<div class="app-wrapper">
+			<Route path="server/:id/*path/*other" component="{Server}" />
+			<Route path="profile/*" component="{User}" />
+			<Route path="/" component="{Select}" />
+			<Route component="{NotFound}" />
 		</div>
 	</Router>
-  {/if}
 </template>
+
+<style lang="scss">
+.app-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 100%;
+}
+</style>

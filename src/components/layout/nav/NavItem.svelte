@@ -7,9 +7,9 @@
 <template>
   <span>
     {#if to}
-      <Link to={to}><slot /></Link>
+      <Link {to}><slot /></Link>
     {:else}
-      <a href={href}><slot /></a>
+      <a {href}><slot /></a>
     {/if}
   </span>
 </template>

@@ -17,7 +17,8 @@
     display: flex;
     align-items: center;
     max-width: vars.$max_width;
-    margin: 2rem auto .5rem auto;
+    margin: 2rem auto 1rem auto;
+    width: 100%;
 
     .left {
       display: flex;

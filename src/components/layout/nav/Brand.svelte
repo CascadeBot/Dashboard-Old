@@ -25,7 +25,7 @@
       text-decoration: none;
       color: vars.$text_highlight;
       padding: .2rem .5rem;
-      margin-left: .5rem;
+      padding-left: 0;
 
       &:hover {
         color: vars.$text_color;

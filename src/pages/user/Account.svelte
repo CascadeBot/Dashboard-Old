@@ -1,11 +1,10 @@
 <script>
   import Section from "../../components/layout/Section.svelte"
-
-  export let id;
 </script>
 
 <template>
   <Section>
-    <h1>General page. Server id: {id}</h1>
+    <h1>Your Account</h1>
+    <p>Nothing here yet :eyes:</p>
   </Section>
 </template>
