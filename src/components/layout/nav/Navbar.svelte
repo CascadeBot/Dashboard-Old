@@ -19,6 +19,8 @@
     max-width: vars.$max_width;
     margin: 2rem auto 1rem auto;
     width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
 
     .left {
       display: flex;

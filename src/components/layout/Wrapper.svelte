@@ -20,6 +20,7 @@
     margin: 0 auto;
     flex-direction: row;
     flex: 1;
+    padding: 0 1rem;
   }
 
   .content {

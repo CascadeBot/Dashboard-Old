@@ -22,12 +22,6 @@
           tier
         }
       }
-      Guilds{
-        id
-        Meta{
-          name
-        }
-      }
     }
   `
 

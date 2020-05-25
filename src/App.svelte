@@ -45,6 +45,5 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 100%;
 }
 </style>
