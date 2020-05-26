@@ -13,6 +13,19 @@
 
   let boolSettings;
 
+  function toggleValue(path) {
+    return (e) => {
+      boolSettings[path] = e.detail;
+    }
+  }
+
+  function getToggleParams(path) {
+    return {
+      "on:toggle": toggleValue(path),
+      "state": boolSettings[path]
+    }
+  }
+
   function resetBoolSettings() {
     boolSettings = {...originalState};
   }
@@ -27,9 +40,9 @@
   <Section>
     <Breadcrumb parts={["Cascade official server", "General"]} />
     <Headline>General settings</Headline>
-    <Toggle state={boolSettings.embed} on:toggle={({detail}) => boolSettings.embed = detail}>Show embedded messages</Toggle>
-    <Toggle state={boolSettings.deleteAfter} on:toggle={({detail}) => boolSettings.deleteAfter = detail}>Delete message after command</Toggle>
-    <Toggle state={boolSettings.mentionPrefix} on:toggle={({detail}) => boolSettings.mentionPrefix = detail}>Show prefix when mentioning the bot</Toggle>
+    <Toggle state={boolSettings.embed} on:toggle={toggleValue("embed")}>Show embedded messages</Toggle>
+    <Toggle state={boolSettings.deleteAfter} on:toggle={toggleValue("deleteAfter")}>Delete message after command</Toggle>
+    <Toggle state={boolSettings.mentionPrefix} on:toggle={toggleValue("mentionPrefix")}>Show prefix when mentioning the bot</Toggle>
     <br>
     {#if isModified}
       <Button on:click={resetBoolSettings}>Reset</Button>
