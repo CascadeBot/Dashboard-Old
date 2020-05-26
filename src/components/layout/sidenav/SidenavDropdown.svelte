@@ -1,9 +1,20 @@
+<script>
+  export let servers = [];
+  export let id;
+
+  let selected = {};
+  $: selected = servers.find((val) => val.id == id);
+
+  let styleStr = "";
+  $: styleStr = selected.Meta.iconURL ? `background-image: url('${selected.Meta.iconURL}');` : ""
+</script>
+
 <template>
   <div class="current">
-    <div class="img"></div>
+    <div class="img" style={styleStr}></div>
     <div class="content">
-      <p class="name">Zach heyde Zach heyde Zach heyde Zach heyde Zach heyde</p>
-      <p class="count">152 members</p>
+      <p class="name">{selected.Meta.name}</p>
+      <p class="count">{selected.Meta.memberCount} member{#if selected.Meta.memberCount > 1}s{/if}</p>
     </div>
   </div>
 </template>

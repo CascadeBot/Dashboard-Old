@@ -1,6 +1,6 @@
 <script>
   import { Link } from "svelte-routing";
-  import { getContext, onDestroy } from 'svelte';
+  import { onDestroy } from 'svelte';
   import { getClient, query } from 'svelte-apollo';
   import { gql } from "apollo-boost";
 
