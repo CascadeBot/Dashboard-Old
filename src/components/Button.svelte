@@ -1,5 +1,5 @@
 <script>
-  let type = "primary";
+  export let type = "primary";
 </script>
 
 <template>

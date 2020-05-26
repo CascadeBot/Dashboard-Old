@@ -1,8 +1,12 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
   export let state = false;
 
   function click() {
-    state = !state;
+    dispatch("toggle", !state);
   }
 </script>
 
