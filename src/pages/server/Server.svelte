@@ -1,6 +1,7 @@
 <script>
   import { Router, Route } from "svelte-routing";
-  import { getContext } from 'svelte';
+  import { getContext, setContext } from 'svelte';
+  import { makeCurrentGuildStore } from '../../state/currentGuild';
   import Wrapper from "../../components/layout/Wrapper.svelte";
   import Sidenav from "../../components/layout/sidenav/Sidenav.svelte";
   import SidenavCategory from "../../components/layout/sidenav/SidenavCategory.svelte";
@@ -15,6 +16,12 @@
   export let path;
 
   let servers = getContext("guilds");
+
+  let currentGuild = makeCurrentGuildStore(id);
+  setContext("current", currentGuild);
+  $: if (!$servers.loading) {
+    currentGuild.guildData.setId($servers.data, id);
+  }
 
   $: isPermissionsActive = path.startsWith("permissions");
 </script>

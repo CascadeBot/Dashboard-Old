@@ -13,7 +13,7 @@
   import Select from "./pages/Select.svelte";
   import NotFound from "./pages/404.svelte";
 
-  guilds.call(getClient());
+  guilds.fetch(getClient());
   setContext("guilds", guilds);
 
   const user = getContext("user");

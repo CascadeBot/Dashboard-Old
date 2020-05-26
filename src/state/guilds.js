@@ -26,7 +26,7 @@ function guildsStore() {
 
 	return {
     subscribe,
-    call: async (client) => {
+    fetch: async (client) => {
       try {
         const res = await query(client, { query: GUILDS_QUERY }).result();
         update(() => {

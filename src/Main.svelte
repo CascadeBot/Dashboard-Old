@@ -9,7 +9,7 @@
   const client = new ApolloClient({ uri: `${WEB.API_URL}/graphql`,  credentials: 'include' });
   setClient(client);
 
-  user.call(client);
+  user.fetch(client);
   setContext("user", user);
 
   $: if ($user.error) {
