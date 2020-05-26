@@ -7,13 +7,13 @@
 
   let servers = getContext("guilds");
 
-  $: isBigList = $servers.loading === true ? false : $servers.data.length > 5
+  $: isBigList = $servers.loading ? false : $servers.data.length > 5
 </script>
 
 <template>
   <div class="page-select">
     <h1 class="h2">Select your server</h1>
-    {#if $servers.loading === true}
+    {#if $servers.loading}
       <p>Loading servers</p>
     {:else}
       <SelectWrapper {isBigList}>

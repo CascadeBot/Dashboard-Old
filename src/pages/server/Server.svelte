@@ -24,7 +24,7 @@
     <Wrapper>
       <div slot="sidenav">
         <Sidenav>
-          {#if $servers.loading === true}
+          {#if $servers.loading}
             <p>Loading servers</p>
           {:else}
             <SidenavDropdown servers={$servers.data} {id}/>

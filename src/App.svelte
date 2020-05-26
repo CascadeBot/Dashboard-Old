@@ -1,14 +1,8 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
-  import { setContext, onDestroy } from "svelte";
+  import { setContext, getContext, onDestroy } from "svelte";
   import { guilds } from "./state/guilds";
-
-  import ApolloClient from 'apollo-boost';
-  import { setClient, query } from 'svelte-apollo';
-  import { gql } from "apollo-boost";
-
-  const client = new ApolloClient({ uri: `${WEB.API_URL}/graphql`,  credentials: 'include' });
-  setClient(client);
+  import { getClient } from 'svelte-apollo';
 
   import Navbar from "./components/layout/nav/Navbar.svelte";
   import Brand from "./components/layout/nav/Brand.svelte";
@@ -19,11 +13,10 @@
   import Select from "./pages/Select.svelte";
   import NotFound from "./pages/404.svelte";
 
-  export let user;
-  setContext("user", user);
-
-  guilds.call(client);
+  guilds.call(getClient());
   setContext("guilds", guilds);
+
+  const user = getContext("user");
 </script>
 
 <template>
@@ -33,7 +26,7 @@
         <Brand />
       </div>
       <div slot="right">
-        <NavItem to="profile">{user.Discord.username}</NavItem>
+        <NavItem to="profile">{$user.data.Discord.username}</NavItem>
       </div>
     </Navbar>
 		<div class="app-wrapper">

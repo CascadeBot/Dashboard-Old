@@ -2,36 +2,37 @@ import { writable } from 'svelte/store';
 import { query } from 'svelte-apollo';
 import { gql } from "apollo-boost";
 
-const GUILDS_QUERY = gql`
-  query {
-    Guilds {
-      id
-      Meta {
-        name
-        iconURL
-        memberCount
-      }
+const USER_QUERY = gql`
+query {
+  Me {
+    Discord {
+      username
+    }
+    Patreon {
+      linked
+      tier
     }
   }
+}
 `
 
 const defaultState = {
   loading: true,
-  data: [],
+  data: {},
   error: false
 };
 
-function guildsStore() {
+function userStore() {
 	const { subscribe, set, update } = writable(defaultState);
 
 	return {
     subscribe,
     call: async (client) => {
       try {
-        const res = await query(client, { query: GUILDS_QUERY }).result();
+        const res = await query(client, { query: USER_QUERY }).result();
         update(() => {
           const val = {};
-          val.data = res.data.Guilds;
+          val.data = res.data.Me;
           val.loading = false;
           val.error
           return val;
@@ -48,4 +49,4 @@ function guildsStore() {
 	};
 }
 
-export const guilds = guildsStore();
+export const user = userStore();
