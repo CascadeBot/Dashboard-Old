@@ -1,5 +1,7 @@
 import { writable } from 'svelte/store';
 
+import { makeGuildGeneralStore } from "./guildGeneral"
+
 const defaultState = {
   Meta: {
     name: "..."
@@ -20,8 +22,9 @@ function guildDataStore(id) {
 	};
 }
 
-export function makeCurrentGuildStore(id) {
+export function makeCurrentGuildStore(client, id) {
   return {
-    guildData: guildDataStore(id)
+    guildData: guildDataStore(id),
+    guildGeneral: makeGuildGeneralStore(client, id)
   }
 }

@@ -1,6 +1,7 @@
 <script>
   import { Router, Route } from "svelte-routing";
   import { getContext, setContext } from 'svelte';
+  import { getClient } from 'svelte-apollo';
   import { makeCurrentGuildStore } from '../../state/currentGuild';
   import Wrapper from "../../components/layout/Wrapper.svelte";
   import Sidenav from "../../components/layout/sidenav/Sidenav.svelte";
@@ -17,7 +18,7 @@
 
   let servers = getContext("guilds");
 
-  let currentGuild = makeCurrentGuildStore(id);
+  let currentGuild = makeCurrentGuildStore(getClient(), id);
   setContext("current", currentGuild);
   $: if (!$servers.loading) {
     currentGuild.guildData.setId($servers.data, id);
