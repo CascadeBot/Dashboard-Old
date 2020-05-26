@@ -21,6 +21,10 @@
     border: none;
     cursor: pointer;
 
+    &:focus {
+      outline: none;
+    }
+
     &.primary {
       background-color: vars.$btn_primary;
 
@@ -51,6 +55,18 @@
 
       &:hover {
         background-color: vars.$bg_500;
+      }
+
+      &:active {
+        opacity: .75;
+      }
+    }
+
+    &.no-border {
+      background-color: transparent;
+
+      &:hover {
+        background-color: vars.$bg_400;
       }
 
       &:active {

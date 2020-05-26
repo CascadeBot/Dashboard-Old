@@ -57,7 +57,8 @@
       <Toggle state={boolSettings.mentionPrefix} on:toggle={toggleValue("mentionPrefix")}>Show prefix when mentioning the bot</Toggle>
       <br>
       {#if isModified}
-        <Button on:click={resetBoolSettings}>Reset</Button>
+        <Button>Save</Button>
+        <Button type="no-border" on:click={resetBoolSettings}>Reset</Button>
       {/if}
     </Section>
   {/if}
