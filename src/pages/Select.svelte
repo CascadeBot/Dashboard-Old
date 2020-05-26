@@ -7,7 +7,10 @@
 
   let servers = getContext("guilds");
 
-  $: isBigList = $servers.loading ? false : $servers.data.length > 5
+  let isBigList = false;
+  $: if (!$servers.loading) {
+    isBigList = $servers.data.length > 5
+  }
 </script>
 
 <template>
