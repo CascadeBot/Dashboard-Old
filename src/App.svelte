@@ -1,8 +1,11 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
+  import { setContext, onDestroy } from "svelte";
+  import { guilds } from "./state/guilds";
 
   import ApolloClient from 'apollo-boost';
-  import { setClient } from 'svelte-apollo';
+  import { setClient, query } from 'svelte-apollo';
+  import { gql } from "apollo-boost";
 
   const client = new ApolloClient({ uri: `${WEB.API_URL}/graphql`,  credentials: 'include' });
   setClient(client);
@@ -17,6 +20,10 @@
   import NotFound from "./pages/404.svelte";
 
   export let user;
+  setContext("user", user);
+
+  guilds.call(client);
+  setContext("guilds", guilds);
 </script>
 
 <template>
@@ -45,5 +52,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
 }
 </style>

@@ -3,20 +3,27 @@
   export let id;
 
   let selected = {};
-  $: selected = servers.find((val) => val.id == id);
-
   let styleStr = "";
-  $: styleStr = selected.Meta.iconURL ? `background-image: url('${selected.Meta.iconURL}');` : ""
+
+  $: if (servers && servers.length > 0) {
+    selected = servers.find((val) => val.id == id);
+
+    if (selected && selected.Meta.iconURL)
+      styleStr = `background-image: url('${selected.Meta.iconURL}');`
+  }
+
 </script>
 
 <template>
-  <div class="current">
-    <div class="img" style={styleStr}></div>
-    <div class="content">
-      <p class="name">{selected.Meta.name}</p>
-      <p class="count">{selected.Meta.memberCount} member{#if selected.Meta.memberCount > 1}s{/if}</p>
+  {#if selected.Meta}
+    <div class="current">
+      <div class="img" style={styleStr}></div>
+      <div class="content">
+        <p class="name">{selected.Meta.name}</p>
+        <p class="count">{selected.Meta.memberCount} member{#if selected.Meta.memberCount > 1}s{/if}</p>
+      </div>
     </div>
-  </div>
+  {/if}
 </template>
 
 <style lang="scss">

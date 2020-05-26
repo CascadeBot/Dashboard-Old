@@ -1,8 +1,6 @@
 <script>
-  import { Router, Link, Route } from "svelte-routing";
-  import { onDestroy } from 'svelte';
-  import { getClient, query } from 'svelte-apollo';
-  import { gql } from "apollo-boost";
+  import { Router, Route } from "svelte-routing";
+  import { getContext } from 'svelte';
   import Wrapper from "../../components/layout/Wrapper.svelte";
   import Sidenav from "../../components/layout/sidenav/Sidenav.svelte";
   import SidenavCategory from "../../components/layout/sidenav/SidenavCategory.svelte";
@@ -16,33 +14,8 @@
   export let id;
   export let path;
 
-  const GUILDS_QUERY = gql`
-    query {
-      Guilds {
-        id
-        Meta {
-          name
-          iconURL
-          memberCount
-        }
-      }
-    }
-  `
+  let servers = getContext("guilds");
 
-  let servers = [];
-  const getData = (res) => {
-    servers = res.data.Guilds;
-  };
-
-  let serverPromise;
-  let unsub = query(getClient(), { query: GUILDS_QUERY }).subscribe((prom) => {
-    serverPromise = prom;
-    serverPromise.then(getData);
-  });
-
-  onDestroy(unsub);
-
-  let isPermissionsActive;
   $: isPermissionsActive = path.startsWith("permissions");
 </script>
 
@@ -51,11 +24,11 @@
     <Wrapper>
       <div slot="sidenav">
         <Sidenav>
-          {#await serverPromise}
+          {#if $servers.loading === true}
             <p>Loading servers</p>
-          {:then _}
-            <SidenavDropdown {servers} {id}/>
-          {/await}
+          {:else}
+            <SidenavDropdown servers={$servers.data} {id}/>
+          {/if}
           <SidenavCategory>
             <SidenavItem to="./">General</SidenavItem>
             <SidenavItem to="permissions" active={isPermissionsActive}>Permissions</SidenavItem>

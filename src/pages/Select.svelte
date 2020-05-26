@@ -1,56 +1,28 @@
 <script>
-  import { Link } from "svelte-routing";
-  import { onDestroy } from 'svelte';
-  import { getClient, query } from 'svelte-apollo';
-  import { gql } from "apollo-boost";
+  import { getContext } from "svelte";
 
   import SelectItem from "../components/layout/select/SelectItem.svelte";
   import SelectWrapper from "../components/layout/select/SelectWrapper.svelte";
   import AddServerCard from "../components/layout/select/AddServerCard.svelte";
 
-  const GUILDS_QUERY = gql`
-    query {
-      Guilds {
-        id
-        Meta {
-          name
-          iconURL
-          memberCount
-        }
-      }
-    }
-  `
+  let servers = getContext("guilds");
 
-  let servers = [];
-  const getData = (res) => {
-    servers = res.data.Guilds;
-  };
-
-  let serverPromise;
-  let unsub = query(getClient(), { query: GUILDS_QUERY }).subscribe((prom) => {
-    serverPromise = prom;
-    serverPromise.then(getData);
-  });
-
-  onDestroy(unsub);
-
-  let isBigList;
-  $: isBigList = servers.length > 5
+  $: isBigList = $servers.loading === true ? false : $servers.data.length > 5
 </script>
 
 <template>
   <div class="page-select">
     <h1 class="h2">Select your server</h1>
-    {#await serverPromise}
+    {#if $servers.loading === true}
       <p>Loading servers</p>
-    {:then res}
-    <SelectWrapper {isBigList}>
-      {#each servers as {id, Meta}}
-        <SelectItem {isBigList} {id} name={Meta.name} iconUrl={Meta.iconURL} memberCount={Meta.memberCount}/>
-      {/each}
-    </SelectWrapper>
-    <AddServerCard {isBigList}/>
-    {/await}
+    {:else}
+      <SelectWrapper {isBigList}>
+        {#each $servers.data as {id, Meta}}
+          <SelectItem {isBigList} {id} name={Meta.name} iconUrl={Meta.iconURL} memberCount={Meta.memberCount}/>
+        {/each}
+      </SelectWrapper>
+      <AddServerCard {isBigList}/>
+    {/if}
   </div>
 </template>
 
