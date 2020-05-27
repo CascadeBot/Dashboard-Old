@@ -30,18 +30,15 @@ function userStore() {
     fetch: async (client) => {
       try {
         const res = await query(client, { query: USER_QUERY }).result();
-        update(() => {
-          const val = {};
-          val.data = res.data.Me;
-          val.loading = false;
-          val.error
-          return val;
+        set({
+          data: res.data.Me,
+          loading: false,
+          error: false
         })
       } catch (e) {
-        update(() => {
-          const val = {...defaultState};
-          val.error = e;
-          return val;
+        set({
+          ...defaultState,
+          error: e
         })
       }
     },

@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
-import { query, mutate } from 'svelte-apollo';
+import { writable } from "svelte/store";
+import { query, mutate as mutateGQL } from "svelte-apollo";
 import { gql } from "apollo-boost";
 
 const GUILD_GENERAL_QUERY = gql`
@@ -9,10 +9,11 @@ const GUILD_GENERAL_QUERY = gql`
         mentionPrefix
         deleteCommand
         useEmbedForMessages
+        prefix
       }
     }
   }
-`
+`;
 
 const GUILD_SETTINGS_UPDATE = gql`
   mutation UpdateGuildSettings($id: UUID!, $input: GuildSettingsInput!) {
@@ -20,71 +21,117 @@ const GUILD_SETTINGS_UPDATE = gql`
       mentionPrefix
       deleteCommand
       useEmbedForMessages
+      prefix
     }
   }
-`
+`;
+
+const matches = (obj, source) => {
+  return Object.keys(source).every(key => {
+    return obj.hasOwnProperty(key) && obj[key] === source[key]
+  });
+}
+
+// returns object with only keys that are different from source
+const diff = (changes, source) => Object.keys(changes).filter(key => changes[key] !== source[key]).reduce((acc, key) => { acc[key] = changes[key]; return acc; }, {})
+
+const defaultChanges = {
+  useEmbedForMessages: false,
+  deleteCommand: false,
+  mentionPrefix: false,
+  prefix: ";"
+}
 
 const defaultState = {
   loading: true,
   data: {},
-  error: false
+  error: false,
+  changes: {...defaultChanges},
+  hasChanges: false
 };
 
 function guildGeneralStore(client, id) {
-	const { subscribe, set, update } = writable(defaultState);
+  const store = writable({...defaultState})
+  const { subscribe, set, update } = store
+  const ctx = {
+    id,
+    client,
+  };
+  let firstTime = true
 
-  let firstTime = true;
-
-	return {
+  return {
     subscribe,
     fetch: async () => {
-      if (!firstTime)
-        return;
-      try {
-        const res = await query(client, {
-          query: GUILD_GENERAL_QUERY,
-          variables: {
-            id
-          }
-        }).result();
-        update(() => {
-          const val = {};
-          val.data = res.data.Guild.Settings;
-          val.loading = false;
-          val.error = false;
-          return val;
-        })
-        firstTime = false;
-      } catch (e) {
-        update(() => {
-          console.log(e);
-          const val = {...defaultState};
-          val.loading = false;
-          val.error = e;
-          return val;
-        })
-      }
+      if (!firstTime) return
+      await fetch(store, ctx)
+      firstTime = false
     },
-    mutate: async (newsettings) => {
-      const res = await mutate(client, {
-        mutation: GUILD_SETTINGS_UPDATE,
-        variables: {
-          id,
-          input: newsettings
-        },
-      });
+    set: (newStore) => {
+      if (newStore.loading == false)
+        newStore.hasChanges = !matches(newStore.changes, newStore.data);
+      return set(newStore);
+    },
+    resetChanges: () => {
       update((old) => {
-        const val = old;
-        val.data = {
-          ...val.data,
-          ...res.data.UpdateGuildSettings
-        }
-        return val;
+        old.hasChanges = false;
+        old.changes = {...old.data};
+        return old;
       });
-      return true;
     },
-		reset: () => set(defaultState)
-	};
+    saveChanges: (newSettings) => saveChanges(store, ctx, newSettings),
+    reset: () => reset(store),
+  };
+}
+
+async function fetch({ set }, { client, id }) {
+  try {
+    const res = await query(client, {
+      query: GUILD_GENERAL_QUERY,
+      variables: {
+        id,
+      },
+    }).result();
+    set({
+      ...defaultState,
+      changes: {...res.data.Guild.Settings},
+      data: res.data.Guild.Settings,
+      loading: false,
+    });
+  } catch (e) {
+    set({
+      ...defaultState,
+      changes: {...defaultChanges},
+      error: e,
+    });
+  }
+  return;
+}
+
+async function saveChanges({ update }, {client, id}, store) {
+  const res = await mutateGQL(client, {
+    mutation: GUILD_SETTINGS_UPDATE,
+    variables: {
+      id,
+      input: diff(store.changes, store.data),
+    },
+  });
+  update((old) => ({
+    ...old,
+    data: {
+      ...old.data,
+      ...res.data.UpdateGuildSettings,
+    },
+    changes: {...res.data.UpdateGuildSettings},
+    hasChanges: false
+  }));
+}
+
+function reset({ subscribe, set, update }) {
+  set({
+    ...defaultState,
+    changes: {...defaultChanges}
+  });
+  return;
 }
 
 export const makeGuildGeneralStore = guildGeneralStore;

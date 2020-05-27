@@ -29,18 +29,15 @@ function guildsStore() {
     fetch: async (client) => {
       try {
         const res = await query(client, { query: GUILDS_QUERY }).result();
-        update(() => {
-          const val = {};
-          val.data = res.data.Guilds;
-          val.loading = false;
-          val.error
-          return val;
+        set({
+          data: res.data.Guilds,
+          loading: false,
+          error: false
         })
       } catch (e) {
-        update(() => {
-          const val = {...defaultState};
-          val.error = e;
-          return val;
+        set({
+          ...defaultState,
+          error: e
         })
       }
     },
