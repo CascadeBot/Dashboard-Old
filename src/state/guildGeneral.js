@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { query } from 'svelte-apollo';
+import { query, mutate } from 'svelte-apollo';
 import { gql } from "apollo-boost";
 
 const GUILD_GENERAL_QUERY = gql`
@@ -10,6 +10,16 @@ const GUILD_GENERAL_QUERY = gql`
         deleteCommand
         useEmbedForMessages
       }
+    }
+  }
+`
+
+const GUILD_SETTINGS_UPDATE = gql`
+  mutation UpdateGuildSettings($id: UUID!, $input: GuildSettingsInput!) {
+    UpdateGuildSettings(id: $id, input: $input) {
+      mentionPrefix
+      deleteCommand
+      useEmbedForMessages
     }
   }
 `
@@ -54,6 +64,24 @@ function guildGeneralStore(client, id) {
           return val;
         })
       }
+    },
+    mutate: async (newsettings) => {
+      const res = await mutate(client, {
+        mutation: GUILD_SETTINGS_UPDATE,
+        variables: {
+          id,
+          input: newsettings
+        },
+      });
+      update((old) => {
+        const val = old;
+        val.data = {
+          ...val.data,
+          ...res.data.UpdateGuildSettings
+        }
+        return val;
+      });
+      return true;
     },
 		reset: () => set(defaultState)
 	};
