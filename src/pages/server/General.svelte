@@ -8,6 +8,7 @@
   import Button from "../../components/Button.svelte"
 
   let { guildData, guildGeneral } = getContext("current");
+  let servers = getContext("guilds");
   guildGeneral.fetch();
 
   let originalState = {
@@ -17,12 +18,6 @@
     first_render: true
   };
   let boolSettings;
-
-  function toggleValue(path) {
-    return (e) => {
-      boolSettings[path] = e.detail;
-    }
-  }
 
   function resetBoolSettings() {
     boolSettings = {...originalState};
@@ -46,15 +41,15 @@
 </script>
 
 <template>
-  {#if $guildGeneral.loading}
+  {#if ($guildGeneral.loading || $guildData.loading || $servers.loading)}
     loading ...
   {:else}
     <Section>
       <Breadcrumb parts={[$guildData.Meta.name, "General"]} />
       <Headline>General settings</Headline>
-      <Toggle state={boolSettings.embed} on:toggle={toggleValue("embed")}>Show embedded messages</Toggle>
-      <Toggle state={boolSettings.deleteAfter} on:toggle={toggleValue("deleteAfter")}>Delete message after command</Toggle>
-      <Toggle state={boolSettings.mentionPrefix} on:toggle={toggleValue("mentionPrefix")}>Show prefix when mentioning the bot</Toggle>
+      <Toggle bind:state={boolSettings.embed}>Show embedded messages</Toggle>
+      <Toggle bind:state={boolSettings.deleteAfter}>Delete message after command</Toggle>
+      <Toggle bind:state={boolSettings.mentionPrefix}>Show prefix when mentioning the bot</Toggle>
       <br>
       {#if isModified}
         <Button>Save</Button>

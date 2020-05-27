@@ -6,7 +6,7 @@
   export let state = false;
 
   function click() {
-    dispatch("toggle", !state);
+    state = !state;
   }
 </script>
 
