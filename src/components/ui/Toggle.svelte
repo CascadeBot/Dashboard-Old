@@ -32,6 +32,7 @@
     align-items: center;
     margin-bottom: 0.75rem;
     cursor: pointer;
+    user-select: none;
 
     .text {
       margin: 0;

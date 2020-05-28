@@ -28,6 +28,7 @@
       font-size: .8em;
       position: absolute;
       top: .4rem;
+      user-select: none;
     }
 
     input {

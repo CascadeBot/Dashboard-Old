@@ -7,6 +7,7 @@
   import Toggle from "../../components/ui/Toggle.svelte"
   import Button from "../../components/Button.svelte"
   import Input from "../../components/ui/Input.svelte"
+  import Checkbox from "../../components/ui/Checkbox.svelte"
 
   let { guildData, guildGeneral } = getContext("current");
   let servers = getContext("guilds");
@@ -19,6 +20,8 @@
       console.error(e);
     });
   }
+
+  let check = false;
 </script>
 
 <template>
@@ -28,7 +31,10 @@
     <Section>
       <Breadcrumb parts={[$guildData.Meta.name, "General"]} />
       <Headline>General settings</Headline>
-      <Input id="cascade-prefix" bind:value={$guildGeneral.changes.prefix}>Prefix</Input>
+      <div class="block">
+        <Input id="cascade-prefix" bind:value={$guildGeneral.changes.prefix}>Prefix</Input>
+        <Checkbox bind:checked={check}>Case sensitive prefix</Checkbox>
+      </div>
       <Toggle bind:state={$guildGeneral.changes.useEmbedForMessages}>Show embedded messages</Toggle>
       <Toggle bind:state={$guildGeneral.changes.deleteCommand}>Delete message after command</Toggle>
       <Toggle bind:state={$guildGeneral.changes.mentionPrefix}>Show prefix when mentioning the bot</Toggle>
@@ -40,3 +46,13 @@
     </Section>
   {/if}
 </template>
+
+<style lang="scss">
+  .block {
+    margin-bottom: 1.5rem;
+
+    > :global(.input-container) {
+      margin-bottom: .5rem;
+    }
+  }
+</style>
