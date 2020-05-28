@@ -7,6 +7,7 @@ query {
   Me {
     Discord {
       username
+      avatarURL
     }
     Patreon {
       linked
@@ -18,7 +19,12 @@ query {
 
 const defaultState = {
   loading: true,
-  data: {},
+  data: {
+    Discord: {
+      username: "",
+      avatarURL: null
+    }
+  },
   error: false
 };
 

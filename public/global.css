@@ -30,3 +30,8 @@ p {
 .h4 {
   font-size: 1.25rem;
 }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
