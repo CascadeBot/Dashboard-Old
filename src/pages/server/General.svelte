@@ -6,6 +6,7 @@
   import Headline from "../../components/Headline.svelte"
   import Toggle from "../../components/ui/Toggle.svelte"
   import Button from "../../components/Button.svelte"
+  import Input from "../../components/ui/Input.svelte"
 
   let { guildData, guildGeneral } = getContext("current");
   let servers = getContext("guilds");
@@ -27,7 +28,7 @@
     <Section>
       <Breadcrumb parts={[$guildData.Meta.name, "General"]} />
       <Headline>General settings</Headline>
-      <input type="text" bind:value={$guildGeneral.changes.prefix}>
+      <Input id="cascade-prefix" bind:value={$guildGeneral.changes.prefix}>Prefix</Input>
       <Toggle bind:state={$guildGeneral.changes.useEmbedForMessages}>Show embedded messages</Toggle>
       <Toggle bind:state={$guildGeneral.changes.deleteCommand}>Delete message after command</Toggle>
       <Toggle bind:state={$guildGeneral.changes.mentionPrefix}>Show prefix when mentioning the bot</Toggle>
