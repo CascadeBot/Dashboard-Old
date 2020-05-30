@@ -1,5 +1,9 @@
+<script>
+  export let skeleton = false;
+</script>
+
 <template>
-  <div class="section">
+  <div class="section" class:skeleton={skeleton}>
     <slot />
   </div>
 </template>
@@ -11,5 +15,9 @@
     padding: 2rem;
     background-color: vars.$bg_200;
     border-radius: 5px;
+
+    &.skeleton {
+      height: 50vh;
+    }
   }
 </style>

@@ -1,5 +1,6 @@
 <script>
   export let servers = [];
+  export let skeleton = false;
   export let id;
 
   let selected = {};
@@ -15,7 +16,11 @@
 </script>
 
 <template>
-  {#if selected.Meta}
+  {#if skeleton}
+    <div class="current">
+      <div class="img"></div>
+    </div>
+  {:else}
     <div class="current">
       <div class="img" style={styleStr}></div>
       <div class="content">

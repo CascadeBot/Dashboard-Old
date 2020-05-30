@@ -32,11 +32,7 @@
     <Wrapper>
       <div slot="sidenav">
         <Sidenav>
-          {#if $servers.loading}
-            <p>Loading servers</p>
-          {:else}
-            <SidenavDropdown servers={$servers.data} {id}/>
-          {/if}
+          <SidenavDropdown skeleton={$servers.loading} servers={$servers.data} {id}/>
           <SidenavCategory>
             <SidenavItem to="./">General</SidenavItem>
             <SidenavItem to="permissions" active={isPermissionsActive}>Permissions</SidenavItem>

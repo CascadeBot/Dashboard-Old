@@ -27,11 +27,12 @@
   }
 
   let check = false;
+  $: isLoading = $guildGeneral.loading || $guildData.loading || $servers.loading;
 </script>
 
 <template>
-  {#if ($guildGeneral.loading || $guildData.loading || $servers.loading)}
-    loading ...
+  {#if isLoading}
+    <Section skeleton={true}></Section>
   {:else}
     <Section>
       <Breadcrumb parts={[$guildData.Meta.name, "General"]} />
@@ -44,7 +45,7 @@
           </div>
           <Toggle bind:state={$guildGeneral.changes.useEmbedForMessages}>Show embedded messages</Toggle>
           <Toggle bind:state={$guildGeneral.changes.deleteCommand}>Delete message after command</Toggle>
-          <Toggle bind:state={$guildGeneral.changes.mentionPrefix}>Show prefix when mentioning the bot</Toggle>
+          <Toggle bind:state={$guildGeneral.changes.mentionPrefix}>Allow pinging of bot to be used as prefix</Toggle>
         </div>
         <div slot="right">
           <CommandPreview
@@ -73,5 +74,8 @@
       margin-top: 0;
       margin-bottom: .5rem;
     }
+  }
+  .long {
+    height: 80vh;
   }
 </style>

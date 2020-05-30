@@ -16,16 +16,18 @@
 <template>
   <div class="page-select">
     <h1 class="h2">Select your server</h1>
-    {#if $servers.loading}
-      <p>Loading servers</p>
-    {:else}
-      <SelectWrapper {isBigList}>
+    <SelectWrapper {isBigList}>
+      {#if $servers.loading}
+        <SelectItem skeleton={true}></SelectItem>
+        <SelectItem skeleton={true}></SelectItem>
+        <SelectItem skeleton={true}></SelectItem>
+      {:else}
         {#each $servers.data as {id, Meta}}
           <SelectItem {isBigList} {id} name={Meta.name} iconUrl={Meta.iconURL} memberCount={Meta.memberCount}/>
         {/each}
-      </SelectWrapper>
-      <AddServerCard {isBigList}/>
-    {/if}
+      {/if}
+    </SelectWrapper>
+    <AddServerCard {isBigList}/>
   </div>
 </template>
 
