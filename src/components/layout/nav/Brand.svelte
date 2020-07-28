@@ -34,7 +34,7 @@
 
     p {
       font-family: vars.$heading_font;
-      font-weight: normal;
+      font-weight: bold;
       margin: 0 0 0 1rem;
     }
   }

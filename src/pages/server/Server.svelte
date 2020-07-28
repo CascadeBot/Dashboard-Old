@@ -34,8 +34,8 @@
         <Sidenav>
           <SidenavDropdown skeleton={$servers.loading} servers={$servers.data} {id}/>
           <SidenavCategory>
-            <SidenavItem to="./">General</SidenavItem>
-            <SidenavItem to="permissions" active={isPermissionsActive}>Permissions</SidenavItem>
+            <SidenavItem icon="cog" to="./">General</SidenavItem>
+            <SidenavItem icon="cog" to="permissions" active={isPermissionsActive}>Permissions</SidenavItem>
             {#if isPermissionsActive}
               <SidenavItem to="permissions" sub={true}>Permission settings</SidenavItem>
               <SidenavItem to="permissions/groups" sub={true}>Groups</SidenavItem>

@@ -19,8 +19,6 @@
 <div class="command-preview-container">
   <Message deleted={deleteCommand} {prefix} time="12 minutes" {userName} {iconUrl}/>
   <Message botMessage={true} {prefix} time="12 minutes" embed={embeds} userName="Cascade" iconUrl={botIconUrl}/>
-  <Message deleted={deleteCommand} {prefix} time="1 second" {userName} {iconUrl}/>
-  <Message botMessage={true} {prefix} time="1 second" embed={embeds} userName="Cascade" iconUrl={botIconUrl}/>
 </div>
 </template>
 
@@ -31,9 +29,9 @@
     width: 25rem;
     max-width: 100%;
 
-    border-radius: 5px;
-    background-color: vars.$bg_300;
-    padding: 1rem;
+    border-radius: 10px;
+    background-color: vars.$bg_150;
+    padding: 2.5rem;
 
     transform-origin: top right;
     transform: scale(.85);

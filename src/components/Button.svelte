@@ -20,6 +20,7 @@
     color: white;
     border: none;
     cursor: pointer;
+    transition: transform 50ms ease-in-out;
 
     &:focus {
       outline: none;
@@ -33,7 +34,7 @@
       }
 
       &:active {
-        background-color: vars.$btn_primary_active;
+        transform: scale(1.05);
       }
     }
 
@@ -45,7 +46,7 @@
       }
 
       &:active {
-        background-color: vars.$btn_secondary_active;
+        transform: scale(1.05);
       }
     }
 

@@ -1,13 +1,11 @@
 
 /* typography */
 .h1, .h2, .h3 {
-  font-family: 'Manrope', Helvetica, sans-serif;
-  font-weight: normal;
+  font-weight: bold;
   color: white;
 }
 
 p {
-  font-family: 'Source Sans Pro', Helvetica, sans-serif;
   font-weight: normal;
 }
 
@@ -34,4 +32,27 @@ p {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.skeleton-animation {
+  animation: skeleton 1.25s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes skeleton {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+*::selection {
+  color: white;
+  background-color: #BB204F;
 }

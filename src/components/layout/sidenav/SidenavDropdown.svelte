@@ -17,7 +17,7 @@
 
 <template>
   {#if skeleton}
-    <div class="current">
+    <div class="current skeleton-animation">
       <div class="img"></div>
     </div>
   {:else}

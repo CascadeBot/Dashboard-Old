@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="section" class:skeleton={skeleton}>
+  <div class="section" class:skeleton={skeleton} class:skeleton-animation={skeleton}>
     <slot />
   </div>
 </template>
