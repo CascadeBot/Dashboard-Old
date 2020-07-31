@@ -20,8 +20,11 @@
 
   let currentGuild = makeCurrentGuildStore(getClient(), id);
   setContext("current", currentGuild);
+
+  $: currentGuild.setId(id);
+
   $: if (!$servers.loading) {
-    currentGuild.guildData.setId($servers.data, id);
+    $currentGuild.guildData.setServers($servers.data);
   }
 
   $: isPermissionsActive = path.startsWith("permissions");

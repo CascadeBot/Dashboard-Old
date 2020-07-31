@@ -12,14 +12,18 @@
   import Checkbox from "../../components/ui/Checkbox.svelte"
   import CommandPreview from "../../components/deco/CommandPreview.svelte"
 
-  let { guildData, guildGeneral } = getContext("current");
+  let currentGuild = getContext("current");
+  $: stores = $currentGuild;
+  $: gGeneral = stores.guildGeneral;
+  $: gData = stores.guildData;
+
   let servers = getContext("guilds");
-  guildGeneral.fetch();
+  $: stores.guildGeneral.fetch();
 
   let user = getContext("user");
 
   async function saveChanges() {
-    guildGeneral.saveChanges($guildGeneral).then(() => {
+    guildGeneral.saveChanges(stores.$guildGeneral).then(() => {
       console.log("saving data");
     }).catch(e => {
       console.error(e);
@@ -27,7 +31,7 @@
   }
 
   let check = false;
-  $: isLoading = $guildGeneral.loading || $guildData.loading || $servers.loading;
+  $: isLoading = $gGeneral.loading || $gData.loading || $servers.loading;
 </script>
 
 <template>
@@ -35,32 +39,32 @@
     <Section skeleton={true}></Section>
   {:else}
     <Section>
-      <Breadcrumb parts={[$guildData.Meta.name, "General"]} />
+      <Breadcrumb parts={[$gData.Meta.name, "General"]} />
       <Headline>General settings</Headline>
       <Coltwo>
         <div slot="left">
           <div class="block">
-            <Input id="cascade-prefix" bind:value={$guildGeneral.changes.prefix}>Prefix</Input>
+            <Input id="cascade-prefix" bind:value={$gGeneral.changes.prefix}>Prefix</Input>
             <Checkbox bind:checked={check}>Case sensitive prefix</Checkbox>
           </div>
-          <Toggle bind:state={$guildGeneral.changes.useEmbedForMessages}>Show embedded messages</Toggle>
-          <Toggle bind:state={$guildGeneral.changes.deleteCommand}>Delete message after command</Toggle>
-          <Toggle bind:state={$guildGeneral.changes.mentionPrefix}>Allow pinging of bot to be used as prefix</Toggle>
+          <Toggle bind:state={$gGeneral.changes.useEmbedForMessages}>Show embedded messages</Toggle>
+          <Toggle bind:state={$gGeneral.changes.deleteCommand}>Delete message after command</Toggle>
+          <Toggle bind:state={$gGeneral.changes.mentionPrefix}>Allow pinging of bot to be used as prefix</Toggle>
         </div>
         <div slot="right">
           <CommandPreview
-            prefix={$guildGeneral.changes.prefix}
-            deleteCommand={$guildGeneral.changes.deleteCommand}
-            embeds={$guildGeneral.changes.useEmbedForMessages}
+            prefix={$gGeneral.changes.prefix}
+            deleteCommand={$gGeneral.changes.deleteCommand}
+            embeds={$gGeneral.changes.useEmbedForMessages}
             userName={$user.data.Discord.username}
             iconUrl={$user.data.Discord.avatarURL}
           />
         </div>
       </Coltwo>
       <br>
-      {#if $guildGeneral.hasChanges}
+      {#if $gGeneral.hasChanges}
         <Button on:click={saveChanges}>Save</Button>
-        <Button type="no-border" on:click={guildGeneral.resetChanges}>Reset</Button>
+        <Button type="no-border" on:click={stores.guildGeneral.resetChanges}>Reset</Button>
       {/if}
     </Section>
   {/if}

@@ -13,7 +13,7 @@ function guildDataStore(id) {
 
 	return {
     subscribe,
-    setId: (guilds) => {
+    setServers: (guilds) => {
       update(() => {
         return guilds.find(val => val.id == id);
       });
@@ -23,8 +23,18 @@ function guildDataStore(id) {
 }
 
 export function makeCurrentGuildStore(client, id) {
-  return {
+  const { subscribe, set } = writable({
     guildData: guildDataStore(id),
     guildGeneral: makeGuildGeneralStore(client, id)
+  });
+
+  return {
+    subscribe,
+    setId(newid) {
+      set({
+        guildData: guildDataStore(newid),
+        guildGeneral: makeGuildGeneralStore(client, newid)
+      })
+    }
   }
 }
