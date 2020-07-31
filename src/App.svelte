@@ -7,6 +7,7 @@
   import Navbar from "./components/layout/nav/Navbar.svelte";
   import Brand from "./components/layout/nav/Brand.svelte";
   import NavItem from "./components/layout/nav/NavItem.svelte";
+  import UserDropdown from "./components/other/UserDropdown.svelte";
 
   import Server from "./pages/server/Server.svelte";
   import User from "./pages/user/User.svelte";
@@ -26,7 +27,7 @@
         <Brand />
       </div>
       <div slot="right">
-        <NavItem to="profile">{$user.data.Discord.username}</NavItem>
+        <UserDropdown/>
       </div>
     </Navbar>
 		<div class="app-wrapper">
@@ -39,6 +40,8 @@
 </template>
 
 <style lang="scss">
+@use "vars";
+
 .app-wrapper {
   flex: 1;
   display: flex;

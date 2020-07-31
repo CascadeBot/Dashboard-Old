@@ -1,6 +1,7 @@
 <script>
   import { Link } from "svelte-routing";
   import Logo from "../../Logo.svelte";
+  import Label from "../../ui/Label.svelte";
 </script>
 
 <template>
@@ -8,6 +9,7 @@
     <Link to="/">
       <Logo />
       <p>Cascade</p>
+      <Label>Beta</Label>
     </Link>
   </div>
 </template>
@@ -35,7 +37,7 @@
     p {
       font-family: vars.$heading_font;
       font-weight: bold;
-      margin: 0 0 0 1rem;
+      margin: 0 .5rem 0 1rem;
     }
   }
 </style>

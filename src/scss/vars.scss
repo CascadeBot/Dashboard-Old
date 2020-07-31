@@ -1,6 +1,7 @@
 $text_highlight: white;
 $text_color: #B5B8C1;
 $text_muted: #828898;
+$text_red: #F1475E;
 
 $icon_disabled: #4D525E;
 $icon_selected: white;
@@ -10,8 +11,8 @@ $max_width: 1280px;
 
 $bg_100: #0C0E14;
 $bg_150: #11141C;
-$bg_200: #191C24;
-$bg_300: #1E212A;
+$bg_200: rgba(25, 28, 36, 1);
+$bg_300: rgba(30, 33, 42, 1);
 $bg_400: #282b35;
 $bg_500: #363944;
 $bg_600: #454853;

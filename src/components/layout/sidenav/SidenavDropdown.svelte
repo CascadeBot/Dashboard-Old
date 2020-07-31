@@ -79,22 +79,6 @@
 
     .current {
       position: relative;
-      z-index: 55;
-    }
-  }
-
-  .triangle {
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-
-    border-top: 4px solid white;
-    transition: transform 100ms ease-in-out;
-    opacity: .8;
-
-    &.open {
-      transform: rotate(180deg);
     }
   }
 

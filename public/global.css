@@ -56,3 +56,18 @@ body {
   color: white;
   background-color: #BB204F;
 }
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+
+  border-top: 4px solid white;
+  transition: transform 100ms ease-in-out;
+  opacity: .8;
+}
+
+.triangle.open {
+  transform: rotate(180deg);
+}
