@@ -9,6 +9,7 @@ query {
       username
       avatarURL
       discriminator
+      email
     }
     Patreon {
       linked
@@ -24,7 +25,12 @@ const defaultState = {
     Discord: {
       username: "",
       avatarURL: null,
-      discriminator: ""
+      discriminator: "",
+      email: null
+    },
+    Patreon: {
+      linked: false,
+      tier: "default"
     }
   },
   error: false

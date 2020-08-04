@@ -2,13 +2,21 @@
   import { getContext } from "svelte";
   import { fade, fly } from 'svelte/transition';
 
+  import PrivacyModal from "../modals/Privacy.svelte";
+  import AccountModal from "../modals/Account.svelte";
+
   let user = getContext("user");
 
   let open = false;
   let zindexShow = false;
+
+  let openPrivacyModal = false;
+  let openAccountModal = false;
 </script>
 
 <template>
+  <PrivacyModal bind:open={openPrivacyModal}/>
+  <AccountModal bind:open={openAccountModal}/>
   {#if open}
       <div class="overlay"
         on:click={()=>{open = false}}
@@ -25,8 +33,8 @@
     <div class="dropdown-positioner">
       {#if open}
         <div class="dropdown" transition:fly={{ y: -10, duration: 100 }}>
-          <p class="link">Account & premium</p>
-          <p class="link">Privacy settings</p>
+          <p class="link" on:click={()=>{openAccountModal=true;open=false}}>Account & premium</p>
+          <p class="link" on:click={()=>{openPrivacyModal=true;open=false}}>Privacy settings</p>
           <p class="link red">Log out</p>
         </div>
       {/if}

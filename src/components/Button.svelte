@@ -1,9 +1,12 @@
 <script>
   export let type = "primary";
+  export let big = false;
+  export let full = false;
+  export let long = false;
 </script>
 
 <template>
-  <button on:click class={type}>
+  <button on:click class={type} class:big={big} class:long={long} class:full={full}>
     <slot></slot>
   </button>
 </template>
@@ -20,10 +23,23 @@
     color: white;
     border: none;
     cursor: pointer;
+    font-size: 14px;
     transition: transform 50ms ease-in-out;
 
     &:focus {
       outline: none;
+    }
+
+    &.big {
+      padding: .8rem 1.9rem;
+    }
+
+    &.full {
+      width: 100%;
+    }
+
+    &.long {
+      min-width: 11rem;
     }
 
     &.primary {
@@ -51,15 +67,14 @@
     }
 
     &.tertiary {
-      background-color: transparent;
-      border: 1px solid vars.$bg_600;
+      background-color: vars.$btn_tertiary;
 
       &:hover {
-        background-color: vars.$bg_500;
+        background-color: vars.$btn_tertiary_hover;
       }
 
       &:active {
-        opacity: .75;
+        transform: scale(1.05);
       }
     }
 
